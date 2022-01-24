@@ -131,7 +131,11 @@ export default {
       let telefone = hifen.replace(" ", ""); */
       //TIRA TODOS OS CARACTERES QUE NÃO SÃO NUMERICOS E ESPAÇOS
       let telefone = this.telefone.replace(/\D/g, "");
-      window.location.href = `https://web.whatsapp.com/send?phone=55${telefone}`;
+      /* window.location.href = `https://web.whatsapp.com/send?phone=55${telefone}`; */
+      window.open(
+        `https://web.whatsapp.com/send?phone=55${telefone}`,
+        "_blank"
+      );
     },
   },
 };
