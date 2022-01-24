@@ -34,7 +34,10 @@
       <div class="flex justify-center items-center mt-8">
         <input
           type="text"
-          value="123"
+          v-model="telefone"
+          @keypress.enter="addWhats"
+          v-mask="['(##) ####-####', '(##) #####-####']"
+          placeholder="DDD + Telefone"
           class="
             transition
             ease-in-out
@@ -56,6 +59,7 @@
           "
         />
         <button
+          @click="addWhats"
           class="
             bg-green-500
             p-3
@@ -71,8 +75,10 @@
             text-white
           "
         >
-          <img width="20px" src="/plus.svg" alt="" />
-          <span class="font-bold ml-1">Adicionar</span>
+          <span class="font-bold ml-1 flex justify-center items-center">
+            <img class="mr-1" src="/mais.svg" alt="" />
+            Adicionar</span
+          >
         </button>
       </div>
     </div>
@@ -83,15 +89,26 @@
 export default {
   data() {
     return {
+      telefone: "",
       darkMode: "",
     };
+  },
+  mounted() {
+    let darkMode = localStorage.getItem("theme");
+    if (
+      darkMode === "dark" ||
+      (!("theme" in localStorage) &&
+        window.matchMedia("(prefers-color-scheme: dark)").matches)
+    ) {
+      document.documentElement.classList.add("dark");
+    } else {
+      document.documentElement.classList.remove("dark");
+    }
   },
   methods: {
     darkFunction() {
       this.darkMode = !this.darkMode;
-
-      let dark = getItem.localStorage("theme");
-      if (dark != "dark") {
+      if (this.darkMode) {
         localStorage.theme = "dark";
       } else {
         localStorage.theme = "light";
@@ -106,10 +123,15 @@ export default {
       } else {
         document.documentElement.classList.remove("dark");
       }
-
-      // Whenever the user explicitly chooses light mode
-
-      // Whenever the user explicitly chooses dark mode
+    },
+    addWhats() {
+      /*   let parentesesLeft = this.telefone.replace("(", "");
+      let parentesesRight = parentesesLeft.replace(")", "");
+      let hifen = parentesesRight.replace("-", "");
+      let telefone = hifen.replace(" ", ""); */
+      //TIRA TODOS OS CARACTERES QUE NÃO SÃO NUMERICOS E ESPAÇOS
+      let telefone = this.telefone.replace(/\D/g, "");
+      window.location.href = `https://web.whatsapp.com/send?phone=55${telefone}`;
     },
   },
 };
