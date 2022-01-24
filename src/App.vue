@@ -136,6 +136,7 @@ export default {
         `https://web.whatsapp.com/send?phone=55${telefone}`,
         "_blank"
       );
+      this.telefone = "";
     },
   },
 };
