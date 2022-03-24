@@ -8,26 +8,14 @@
       @click="darkFunction"
     />
     <img
-      v-else
+      v-else-if="darkMode == false"
       class="absolute cursor-pointer top-6 right-6 xl:top-9 xl:right-9"
       src="/moon.svg"
       alt=""
       @click="darkFunction"
     />
     <div
-      class="
-        flex flex-col
-        items-center
-        justify-center
-        w-1/2
-        p-8
-        bg-white
-        dark:bg-slate-800
-        lg:w-6/12
-        md:w-2/3
-        h-80
-        rounded-xl
-      "
+      class="flex flex-col items-center justify-center w-1/2 p-8 bg-white  dark:bg-slate-800 lg:w-6/12 md:w-2/3 h-80 rounded-xl"
     >
       <img class="w-16" src="/whatsapp.svg" alt="Whatsapp" />
       <p class="text-4xl font-bold text-slate-500 mt-7">Adicionar Contato</p>
@@ -52,27 +40,10 @@
 </template>
 
 <script>
+import { onMounted, ref } from "vue";
 export default {
-  data() {
-    return {
-      telefone: "",
-      darkMode: "",
-    };
-  },
-  mounted() {
-    let darkMode = localStorage.getItem("theme");
-    if (
-      darkMode === "dark" ||
-      (!("theme" in localStorage) &&
-        window.matchMedia("(prefers-color-scheme: dark)").matches)
-    ) {
-      document.documentElement.classList.add("dark");
-    } else {
-      document.documentElement.classList.remove("dark");
-    }
-  },
   methods: {
-    darkFunction() {
+    /*   darkFunction() {
       this.darkMode = !this.darkMode;
       if (this.darkMode) {
         localStorage.theme = "dark";
@@ -89,7 +60,7 @@ export default {
       } else {
         document.documentElement.classList.remove("dark");
       }
-    },
+    }, */
     addWhats() {
       /*   let parentesesLeft = this.telefone.replace("(", "");
       let parentesesRight = parentesesLeft.replace(")", "");
@@ -101,6 +72,66 @@ export default {
       window.open(`https://web.whatsapp.com/send?phone=55${telefone}`, "self");
       this.telefone = "";
     },
+  },
+
+  setup() {
+    const telefone = ref("");
+    const darkMode = ref("");
+
+    onMounted(() => {
+      let darkModeStorage = localStorage.getItem("theme");
+      if (
+        darkModeStorage === "dark" ||
+        (!("theme" in localStorage) &&
+          window.matchMedia("(prefers-color-scheme: dark)").matches)
+      ) {
+        darkMode.value = true;
+        document.documentElement.classList.add("dark");
+      } else {
+        document.documentElement.classList.remove("dark");
+      }
+    });
+
+    const darkFunction = () => {
+      darkMode.value = !darkMode.value;
+      if (darkMode.value) {
+        localStorage.theme = "dark";
+      } else {
+        localStorage.theme = "light";
+      }
+
+      if (
+        localStorage.theme === "dark" ||
+        (!("theme" in localStorage) &&
+          window.matchMedia("(prefers-color-scheme: dark)").matches)
+      ) {
+        document.documentElement.classList.add("dark");
+      } else {
+        document.documentElement.classList.remove("dark");
+      }
+    };
+
+    const addWhats = () => {
+      /*   let parentesesLeft = this.telefone.replace("(", "");
+      let parentesesRight = parentesesLeft.replace(")", "");
+      let hifen = parentesesRight.replace("-", "");
+      let telefone = hifen.replace(" ", ""); */
+      //TIRA TODOS OS CARACTERES QUE NÃO SÃO NUMERICOS E ESPAÇOS
+      let telefoneFormat = telefone.value.replace(/\D/g, "");
+      /* window.location.href = `https://web.whatsapp.com/send?phone=55${telefone}`; */
+      window.open(
+        `https://web.whatsapp.com/send?phone=55${telefoneFormat}`,
+        "self"
+      );
+      telefone.value = "";
+    };
+
+    return {
+      telefone,
+      darkMode,
+      darkFunction,
+      addWhats,
+    };
   },
 };
 </script>
