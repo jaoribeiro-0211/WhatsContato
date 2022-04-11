@@ -42,38 +42,6 @@
 <script>
 import { onMounted, ref } from "vue";
 export default {
-  methods: {
-    /*   darkFunction() {
-      this.darkMode = !this.darkMode;
-      if (this.darkMode) {
-        localStorage.theme = "dark";
-      } else {
-        localStorage.theme = "light";
-      }
-
-      if (
-        localStorage.theme === "dark" ||
-        (!("theme" in localStorage) &&
-          window.matchMedia("(prefers-color-scheme: dark)").matches)
-      ) {
-        document.documentElement.classList.add("dark");
-      } else {
-        document.documentElement.classList.remove("dark");
-      }
-    }, */
-    addWhats() {
-      /*   let parentesesLeft = this.telefone.replace("(", "");
-      let parentesesRight = parentesesLeft.replace(")", "");
-      let hifen = parentesesRight.replace("-", "");
-      let telefone = hifen.replace(" ", ""); */
-      //TIRA TODOS OS CARACTERES QUE NÃO SÃO NUMERICOS E ESPAÇOS
-      let telefone = this.telefone.replace(/\D/g, "");
-      /* window.location.href = `https://web.whatsapp.com/send?phone=55${telefone}`; */
-      window.open(`https://web.whatsapp.com/send?phone=55${telefone}`, "self");
-      this.telefone = "";
-    },
-  },
-
   setup() {
     const telefone = ref("");
     const darkMode = ref("");
